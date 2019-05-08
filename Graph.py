@@ -1,6 +1,10 @@
 from copy import deepcopy
 
+
 class Graph:
+    '''
+    take the information and return the solution
+    '''
     def __init__(self):
         self.nodes = []
 
@@ -8,13 +12,26 @@ class Graph:
         return '\n'.join([str(node) for node in self.nodes])
 
     def add_node(self, node):
+        """
+        append a city's information to a list
+        """
         self.nodes.append(node)
 
     def k_nearest_neighbor(self):
+        """
+        find the priority of cities's list
+        Args:
+            variable (type): description
+
+        Returns:
+            the sorted cities and its total length
+        """
         original = deepcopy(self)
         solution = Graph()
         solution.add_node(original.nodes.pop(0))
         total_len = 0
+        # add the calculated and suitable city to another class + del
+        # the partition of recent one
         while original.nodes:
             distance = [solution.nodes[-1].get_distance(node) for node in
                         original.nodes]
@@ -28,14 +45,33 @@ class Graph:
 
 
 class Two_opt(Graph):
+    '''
+    insert a new algorithm
+    '''
     def __init__(self):
         Graph.__init__(self)
 
     def two_opt(self):
+        """
+        change the position of current list
+
+        Args:
+            variable (type): description
+
+        Returns:
+            class str: contain sorted Nodes
+        """
         best = self.nodes[:]
         min = 0
         improve = True
+
         def re_calculate(item):
+            """
+            re_calculate all the given city list
+            Returns:
+                total length
+            """
+
             lene = 0
             for index in range(-1, len(item) - 1):
                 lene += item[index].get_distance(item[index + 1])
@@ -55,4 +91,3 @@ class Two_opt(Graph):
                         improve = True
                 self.nodes = best
         return '\n'.join([str(item) for item in best]), min
-
